@@ -38,15 +38,6 @@ def create_vector_db(file_name):
                        source_column='question',
                           encoding='UTF-8')
 
-    # loader = GithubFileLoader(
-    #     repo="atonui/pds",  # the repo name
-    #     access_token=os.environ['GITHUB_ACCESS_TOKEN'],
-    #     github_api_url="https://api.github.com",
-    #     file_filter=lambda file_path: file_path.endswith(
-    #         ".csv"
-    #         ),  # load all csv files.
-    # )
-
     data = loader.load()
     vectordb = FAISS.from_documents(
         documents=data,
