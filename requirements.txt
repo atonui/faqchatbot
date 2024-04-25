@@ -2,6 +2,7 @@ langchain
 langchain_google_genai
 langchain_community
 huggingface_hub
+InstructorEmbedding
 python-dotenv==1.0.0
 tiktoken==0.4.0
 faiss-cpu==1.7.4
