@@ -1,23 +1,21 @@
-import sqlite3
+import datetime
 import streamlit as st
 from streamlit_option_menu import option_menu
-import datetime
-import pandas as pd
-from utils.functions import *
+from utils.functions import create_vector_db, \
+    get_qa_chain, create_db_table, insert_into_table, read_db
 
 st.set_page_config(page_title='FAQ Chatbot',
-                page_icon= ':lips:', layout="centered")
+                   page_icon=':lips:', layout='centered')
 
 with st.sidebar:
-    selected = option_menu(None, ["Chat", "History", "About"],
-    icons = ['chat-dots', 'clock-history'],
-    menu_icon ="cast", default_index=0, orientation="vertical",
-
-    styles = {
-    "icon"              : {"color": "orange", "font-size": "16px"},
-    "nav-link"          : {"font-size": "16px", "text-align": "left", "margin":"0px", "--hover-color": "#eee"},
-    "nav-link-selected" : {"background-color": "green"},
-    })
+    selected = option_menu(None, ['Chat', 'History', 'About'],
+                           icons=['chat-dots', 'clock-history'],
+                           menu_icon='cast', default_index=0,
+                           orientation='vertical',
+                           styles={'icon': {'color': 'orange', 'font-size': '16px'},
+                                   "nav-link": {"font-size": "16px", "text-align": "left", "margin":"0px", "--hover-color": "#eee"},
+                                   "nav-link-selected": {"background-color": "green"},
+                                   })
 
     "[View the source code](https://github.com/atonui/faqchatbot/tree/main)"
 
@@ -25,11 +23,12 @@ with st.sidebar:
 ############################# Chat ######################################################
 if selected == 'Chat':
     st.title('💬 FAQ Chatbot')
-    # file_path = 'https://github.com/atonui/pds/blob/main/banking.csv?raw=true'
-    file_path = 'banking.csv'
-    create_vector_db(file_path)
+    # FILEPATH = 'https://github.com/atonui/pds/blob/main/banking.csv?raw=true'
+    FILEPATH = 'banking.csv'
+    create_vector_db(FILEPATH)
 
     st.caption(':money_with_wings: Your friendly banking assistant.')
+    # Initialise session state variables
     if 'messages' not in st.session_state:
         st.session_state['messages'] = [{'role': 'assistant', 'content': 'How can I help you today?'}]
 
@@ -45,14 +44,13 @@ if selected == 'Chat':
         st.chat_message('ai').write(response['result'])
 
         # capture the promt, response and timestamp here in a sqlite database
-        # db_connection = open_db_connection()
-        # cursor = db_connection.cursor()
         create_db_table()
         currentTime = datetime.datetime.now()
         insert_into_table(currentTime, prompt, response['result'])
 
 ############################# History ######################################################
 if selected == 'History':
+    st.title(':orange[Chat History]')
     # create another tab where one can view these results
     df = read_db()
     st.dataframe(df, hide_index=True)
@@ -78,13 +76,14 @@ data so that it can chat with customers and handle their most frequent queries. 
 interact with the model via chat, type their questions and have them answered immediately.
 This system will be a huge time and resource saver for companies.
 
-Stockastic is built with these core frameworks and modules:
+FAQ Chatbot is built with these core frameworks and modules:
 
 - [**Streamlit**](https://streamlit.io/) - To create the web app UI and interactivity.
 - [**Google PaLM**](https://ai.google/discover/palm2/) - LLM.
 - [**Instructor Embeddings**](https://instructor-embedding.github.io/) - Used to create vector embeddings for the proprietary documents and the user queries.
 - [**FAISS**](https://engineering.fb.com/2017/03/29/data-infrastructure/faiss-a-library-for-efficient-similarity-search/) - Facebook AI Similarity Search, a vector database to store word embeddings.
 - [**Langchain**](https://www.langchain.com/) - A Python Library for developing applications powered by LLM's.
+- [**Dataset**](https://huggingface.co/datasets/clips/mfaq ) - Obtained from the Pivdenny bank FAQs via HuggingFace.
 
 ## 📈 **Future Roadmap**
 

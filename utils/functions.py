@@ -23,7 +23,7 @@ llm = GoogleGenerativeAI(model="models/text-bison-001",
 
 # create embeddings
 instructor_embeddings = HuggingFaceInstructEmbeddings()
-vector_db_file_path = 'faiss_index'  # I wonder if we should hardcode this
+vector_db_file_path = 'faiss_db'  # I wonder if we should hardcode this
 
 @st.cache_resource
 def create_vector_db(file_name):
@@ -48,13 +48,10 @@ def create_vector_db(file_name):
     # )
 
     data = loader.load()
-    # for item in range(0, len(data), 1):
-    #     if data[item].metadata['path'] == 'banking.csv':
-    #         doc_data = data[item]
-
-    vectordb = FAISS.from_documents(documents=data,
-                                    embedding=instructor_embeddings
-                                    )
+    vectordb = FAISS.from_documents(
+        documents=data,
+        embedding=instructor_embeddings
+        )
     vectordb.save_local(vector_db_file_path)
 
 def get_qa_chain():
