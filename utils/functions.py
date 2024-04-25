@@ -12,7 +12,6 @@ import streamlit as st
 import sqlite3
 import pandas as pd
 
-from langchain.document_loaders import GithubFileLoader
 
 load_dotenv()
 GOOGLE_API_KEY = 'AIzaSyAQcMXAEW1UFdXuq5N_ucj8mRp_80WP0gc'
