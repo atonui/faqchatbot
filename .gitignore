@@ -1,3 +1,4 @@
 /utils/.env
-/bank_faqs.ipynb
+bank_faqs.ipynb
 /faiss_index
+chat.db

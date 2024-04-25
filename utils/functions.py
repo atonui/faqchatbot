@@ -9,6 +9,10 @@ from langchain_google_genai import GoogleGenerativeAI
 from langchain.prompts import PromptTemplate
 from langchain.chains import RetrievalQA
 import streamlit as st
+import sqlite3
+import pandas as pd
+
+from langchain.document_loaders import GithubFileLoader
 
 load_dotenv()
 
@@ -23,14 +27,34 @@ vector_db_file_path = 'faiss_index'  # I wonder if we should hardcode this
 
 @st.cache_resource
 def create_vector_db(file_name):
-    '''Create the vector db and save it in a local file rather than
-    create it every time you run the app.'''
+    '''
+    Create the vector db and save it in a local file rather than
+    create it every time you run the app.
+
+    Args:
+    filename: Name of the csv file to be vectorised.
+    '''
     loader = CSVLoader(file_path=file_name,
                        source_column='question',
-                       encoding='UTF-8')
+                          encoding='UTF-8')
+
+    # loader = GithubFileLoader(
+    #     repo="atonui/pds",  # the repo name
+    #     access_token=os.environ['GITHUB_ACCESS_TOKEN'],
+    #     github_api_url="https://api.github.com",
+    #     file_filter=lambda file_path: file_path.endswith(
+    #         ".csv"
+    #         ),  # load all csv files.
+    # )
+
     data = loader.load()
+    # for item in range(0, len(data), 1):
+    #     if data[item].metadata['path'] == 'banking.csv':
+    #         doc_data = data[item]
+
     vectordb = FAISS.from_documents(documents=data,
-                                    embedding=instructor_embeddings)
+                                    embedding=instructor_embeddings
+                                    )
     vectordb.save_local(vector_db_file_path)
 
 def get_qa_chain():
@@ -44,7 +68,7 @@ def get_qa_chain():
 
     prompt_template = """Given the following context and a question, generate an answer based on this context only.
         In the answer try to provide as much text as possible from "response" section on the source document without making up anything.
-        If the answer is not found in the context, kindly state "I do not know." Do not try to make up an answer.
+        If the answer is not found in the context, kindly state "I do not know. Please contact customer care or visit one of our branches." Do not try to make up an answer.
         CONTEXT: {context}
         QUESTION: {question}
         """
@@ -61,12 +85,72 @@ def get_qa_chain():
             )
     return chain
 
-if __name__ == '__main__':
 
-    # Create a database if one does not exist
-    # if not os.path.isdir(vector_db_file_path):
-    #     create_vector_db()
+def open_db_connection():
+    ''''
+    Open db connection and return connection object.
 
-    chain = get_qa_chain()
+    Returns a database connection object.
+    '''
+    db_connection = sqlite3.connect('chat.db',
+                                    detect_types=sqlite3.PARSE_DECLTYPES |
+                                    sqlite3.PARSE_COLNAMES)
+    return db_connection
 
-    # print(chain('Do you provide internship?'))
+
+def close_db_connection(cursor):
+    '''
+    Close database connection
+
+    Args:
+    cursor: database curso object.
+    '''
+    cursor.close()
+
+
+def create_db_table():
+    ''''
+    Create db table
+    '''
+    cursor = open_db_connection().cursor()
+    # create table if not found
+    create_table_query = '''CREATE TABLE IF NOT EXISTS chat_table (
+    ID INTEGER PRIMARY KEY,
+    time_stamp TIMESTAMP,
+    user_query VARCHAR,
+    llm_response VARCHAR
+    );'''
+
+    cursor.execute(create_table_query)
+    close_db_connection(cursor)
+
+def insert_into_table(currentTime, prompt, response):
+    '''Insert values into table'''
+    db_connection = open_db_connection()
+    cursor = db_connection.cursor()
+    cursor.execute('''INSERT INTO chat_table (time_stamp, user_query, llm_response) VALUES(?,?,?)''',
+                   [currentTime, prompt, response])
+    db_connection.commit()
+    close_db_connection(cursor)
+
+
+def read_db():
+    '''
+    Read all values from the table and return them as a dataframe.
+    '''
+    db_connection = open_db_connection()
+    cursor = db_connection.cursor()
+    df = pd.read_sql_query('''SELECT * FROM chat_table''', db_connection)
+    df.reset_index(drop=True, inplace=True)
+    close_db_connection(cursor)
+    return df
+
+
+    
+# if __name__ == '__main__':
+
+#     # Create a database if one does not exist
+#     # if not os.path.isdir(vector_db_file_path):
+#     #     create_vector_db()
+
+#     chain = get_qa_chain()
