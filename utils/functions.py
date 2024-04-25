@@ -15,9 +15,9 @@ import pandas as pd
 from langchain.document_loaders import GithubFileLoader
 
 load_dotenv()
-
+GOOGLE_API_KEY = 'AIzaSyAQcMXAEW1UFdXuq5N_ucj8mRp_80WP0gc'
 llm = GoogleGenerativeAI(model="models/text-bison-001",
-                         google_api_key=os.environ['GOOGLE_API_KEY'],
+                         google_api_key=GOOGLE_API_KEY,
                          temperature=1)
 # the temperature variable decides how creative the model can be, 0 is not and 1 is very
 
