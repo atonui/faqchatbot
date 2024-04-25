@@ -36,7 +36,7 @@ def create_vector_db(file_name):
     '''
     loader = CSVLoader(file_path=file_name,
                        source_column='question',
-                          encoding='UTF-8')
+                       encoding='UTF-8')
 
     data = loader.load()
     vectordb = FAISS.from_documents(
@@ -91,7 +91,7 @@ def close_db_connection(cursor):
     Close database connection
 
     Args:
-    cursor: database curso object.
+    cursor: database cursor object.
     '''
     cursor.close()
 
@@ -112,12 +112,12 @@ def create_db_table():
     cursor.execute(create_table_query)
     close_db_connection(cursor)
 
-def insert_into_table(currentTime, prompt, response):
+def insert_into_table(current_time, prompt, response):
     '''Insert values into table'''
     db_connection = open_db_connection()
     cursor = db_connection.cursor()
     cursor.execute('''INSERT INTO chat_table (time_stamp, user_query, llm_response) VALUES(?,?,?)''',
-                   [currentTime, prompt, response])
+                   [current_time, prompt, response])
     db_connection.commit()
     close_db_connection(cursor)
 
@@ -132,13 +132,3 @@ def read_db():
     df.reset_index(drop=True, inplace=True)
     close_db_connection(cursor)
     return df
-
-
-    
-# if __name__ == '__main__':
-
-#     # Create a database if one does not exist
-#     # if not os.path.isdir(vector_db_file_path):
-#     #     create_vector_db()
-
-#     chain = get_qa_chain()

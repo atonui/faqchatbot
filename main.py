@@ -90,7 +90,7 @@ FAQ Chatbot is built with these core frameworks and modules:
 Some potential features for future releases:
 
 - User account system.
-- Customise the prompt and model hyperparameters
+- Customise the prompt template and model hyperparameters
 - Ability to create multiple knowledgebases.
 
 ## :gear: Project Design

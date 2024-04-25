@@ -52,7 +52,7 @@ mdurl==0.1.2
 monotonic==1.6
 networkx==3.3
 numpy==1.26.4
-packaging==24.0
+packaging
 pandas==2.2.1
 parso==0.8.4
 patsy==0.5.6
