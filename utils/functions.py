@@ -12,20 +12,19 @@ import streamlit as st
 import sqlite3
 import pandas as pd
 
-
 load_dotenv()
-GOOGLE_API_KEY = 'AIzaSyAQcMXAEW1UFdXuq5N_ucj8mRp_80WP0gc'
+
 llm = GoogleGenerativeAI(model="models/text-bison-001",
-                         google_api_key=GOOGLE_API_KEY,
+                         google_api_key=st.secrets['GOOGLE_API_KEY'],
                          temperature=1)
 # the temperature variable decides how creative the model can be, 0 is not and 1 is very
 
 # create embeddings
 instructor_embeddings = HuggingFaceInstructEmbeddings()
-vector_db_file_path = 'faiss_db'  # I wonder if we should hardcode this
+vector_db_file_path = 'faiss_db'
 
 @st.cache_resource
-def create_vector_db(file_name):
+def create_vector_db(file_path):
     '''
     Create the vector db and save it in a local file rather than
     create it every time you run the app.
@@ -33,7 +32,7 @@ def create_vector_db(file_name):
     Args:
     filename: Name of the csv file to be vectorised.
     '''
-    loader = CSVLoader(file_path=file_name,
+    loader = CSVLoader(file_path=file_path,
                        source_column='question',
                        encoding='UTF-8')
 
