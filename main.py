@@ -31,7 +31,7 @@ if selected == 'Chat':
 
     filename = file_selector()
     FILEPATH = 'banking.csv'
-    create_vector_db(FILEPATH)
+    # create_vector_db(FILEPATH)
 
     st.caption(':money_with_wings: Your friendly banking assistant.')
     # Initialise session state variables
