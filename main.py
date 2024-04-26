@@ -23,8 +23,8 @@ with st.sidebar:
 ############################# Chat ######################################################
 if selected == 'Chat':
     st.title('💬 FAQ Chatbot')
-    FILEPATH = 'https://raw.githubusercontent.com/atonui/faqchatbot/main/banking.csv?token=GHSAT0AAAAAACO2WVG3NVG7OMYBKEVMBMPIZRLZZUA'
-    # FILEPATH = 'banking.csv'
+    # FILEPATH = 'https://raw.githubusercontent.com/atonui/faqchatbot/main/banking.csv?token=GHSAT0AAAAAACO2WVG3NVG7OMYBKEVMBMPIZRLZZUA'
+    FILEPATH = 'banking.csv'
     create_vector_db(FILEPATH)
 
     st.caption(':money_with_wings: Your friendly banking assistant.')
