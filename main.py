@@ -1,4 +1,5 @@
 import datetime
+import pandas as pd
 import streamlit as st
 from streamlit_option_menu import option_menu
 from utils.functions import create_vector_db, \
@@ -23,7 +24,8 @@ with st.sidebar:
 ############################# Chat ######################################################
 if selected == 'Chat':
     st.title('💬 FAQ Chatbot')
-    # FILEPATH = 'https://raw.githubusercontent.com/atonui/faqchatbot/main/banking.csv?token=GHSAT0AAAAAACO2WVG3NVG7OMYBKEVMBMPIZRLZZUA'
+    df = pd.read_csv('https://raw.githubusercontent.com/atonui/faqchatbot/main/banking.csv')
+    csv_file = df.to_csv('banking.csv')
     FILEPATH = 'banking.csv'
     create_vector_db(FILEPATH)
 
