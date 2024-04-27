@@ -24,14 +24,8 @@ with st.sidebar:
 ############################# Chat ######################################################
 if selected == 'Chat':
     st.title('💬 FAQ Chatbot')
-    def file_selector(folder_path='.'):
-        filenames = os.listdir(folder_path)
-        selected_filename = st.selectbox('Select a file', filenames)
-        return os.path.join(folder_path, selected_filename)
-
-    filename = file_selector()
     FILEPATH = 'banking.csv'
-    # create_vector_db(FILEPATH)
+    create_vector_db(FILEPATH)
 
     st.caption(':money_with_wings: Your friendly banking assistant.')
     # Initialise session state variables
