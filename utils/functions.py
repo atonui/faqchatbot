@@ -37,11 +37,14 @@ def create_vector_db(file_path):
                        encoding='UTF-8')
     data = loader.load()
     st.success('Loader okay')
-    vectordb = FAISS.from_documents(
-        documents=data,
-        embedding=instructor_embeddings
-        )
-    st.success('DB created but not saved locally')
+    try:
+        vectordb = FAISS.from_documents(
+            documents=data,
+            embedding=instructor_embeddings
+            )
+        st.success('DB created but not saved locally')
+    except Exception:
+        raise RuntimeError
     vectordb.save_local(vector_db_file_path)
 
 
