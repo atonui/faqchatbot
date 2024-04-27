@@ -41,7 +41,7 @@ def create_vector_db(file_path):
         documents=data,
         embedding=instructor_embeddings
         )
-    vectordb.save_local(vector_db_file_path)
+    # vectordb.save_local(vector_db_file_path)
 
 
 def get_qa_chain():
