@@ -1,4 +1,5 @@
 import datetime
+import os
 import streamlit as st
 import os
 from streamlit_option_menu import option_menu
@@ -26,15 +27,6 @@ if selected == 'Chat':
     st.title('💬 FAQ Chatbot')
     # FILEPATH = 'https://raw.githubusercontent.com/atonui/pds/main/banking.csv'
     FILEPATH = 'banking.csv'
-    #######################################################################################################
-    # def file_selector(folder_path='.'):
-    #     filenames = os.listdir(folder_path)
-    #     selected_filename = st.selectbox('Select a file', filenames, key=filenames)
-    #     return os.path.join(folder_path, selected_filename)
-
-    # filename = file_selector()
-    # st.write('You selected `%s`' % filename)
-   #######################################################################################################
     create_vector_db(FILEPATH)
 
     st.caption(':money_with_wings: Your friendly banking assistant.')
