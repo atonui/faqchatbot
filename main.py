@@ -26,6 +26,7 @@ if selected == 'Chat':
     st.title('💬 FAQ Chatbot')
     # FILEPATH = 'https://raw.githubusercontent.com/atonui/pds/main/banking.csv'
     FILEPATH = 'banking.csv'
+    st.write(FILEPATH)
     create_vector_db(FILEPATH)
 
     st.caption(':money_with_wings: Your friendly banking assistant.')

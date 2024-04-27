@@ -41,10 +41,17 @@ def create_vector_db(file_path):
         documents=data,
         embedding=instructor_embeddings
         )
-    # vectordb.save_local(vector_db_file_path)
-    return vectordb
+    vectordb.save_local(vector_db_file_path)
+
 
 def get_qa_chain():
+    '''
+    Function to take the user query and relevant chunk of data
+    from the vector database and prompt template, pass it to the LLM
+    and return the response.
+
+    Returns: Chain object
+    '''
     # load the vector database from file
     vector_db = FAISS.load_local(vector_db_file_path,
                                  instructor_embeddings,
@@ -97,7 +104,7 @@ def close_db_connection(cursor):
 
 def create_db_table():
     ''''
-    Create db table
+    Create databsase table chat_table
     '''
     cursor = open_db_connection().cursor()
     # create table if not found
@@ -111,8 +118,11 @@ def create_db_table():
     cursor.execute(create_table_query)
     close_db_connection(cursor)
 
+
 def insert_into_table(current_time, prompt, response):
-    '''Insert values into table'''
+    '''
+    Insert values into the chat_table table in the database
+    '''
     db_connection = open_db_connection()
     cursor = db_connection.cursor()
     cursor.execute('''INSERT INTO chat_table (time_stamp, user_query, llm_response) VALUES(?,?,?)''',
