@@ -1,6 +1,5 @@
 import datetime
 import streamlit as st
-import os
 from streamlit_option_menu import option_menu
 from utils.functions import create_vector_db, \
     get_qa_chain, create_db_table, insert_into_table, read_db
@@ -31,13 +30,14 @@ if selected == 'Chat':
     st.caption(':money_with_wings: Your friendly banking assistant.')
     # Initialise session state variables
     if 'messages' not in st.session_state:
-        st.session_state['messages'] = [{'role': 'assistant', 'content': 'How can I help you today?'}]
+        st.session_state['messages'] = [{'role': 'assistant',
+                                         'content': 'How can I help you today?'}]
 
     for msg in st.session_state.messages:
         st.chat_message(msg['role']).write(msg['content'])
 
     if prompt := st.chat_input():
-        st.session_state.messages.append({'role':'user', 'content': prompt})
+        st.session_state.messages.append({'role': 'user', 'content': prompt})
         st.chat_message('user').write(prompt)
         # st.write(st.session_state.messages)
         chain = get_qa_chain()
@@ -55,7 +55,6 @@ if selected == 'History':
     # create another tab where one can view these results
     df = read_db()
     st.dataframe(df, hide_index=True)
-
 
 ############################# About ######################################################
 if selected == 'About':
@@ -101,6 +100,7 @@ Some potential features for future releases:
     st.image('project_design.png')
 
 # Add credit
-st.sidebar.markdown("""
+st.sidebar.markdown('''
 ---
-Built by [Allan Koech](https://github.com/atonui)""")
+Built by [Allan Koech](https://github.com/atonui)
+                    ''')

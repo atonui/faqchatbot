@@ -35,13 +35,14 @@ def create_vector_db(file_path):
     loader = CSVLoader(file_path=file_path,
                        source_column='question',
                        encoding='UTF-8')
-
+    st.success('Loader okay')
     data = loader.load()
     vectordb = FAISS.from_documents(
         documents=data,
         embedding=instructor_embeddings
         )
-    # vectordb.save_local(vector_db_file_path)
+    st.success('DB created but not saved locally')
+    vectordb.save_local(vector_db_file_path)
 
 
 def get_qa_chain():
