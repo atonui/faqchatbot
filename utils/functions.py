@@ -35,8 +35,8 @@ def create_vector_db(file_path):
     loader = CSVLoader(file_path=file_path,
                        source_column='question',
                        encoding='UTF-8')
-    st.success('Loader okay')
     data = loader.load()
+    st.success('Loader okay')
     vectordb = FAISS.from_documents(
         documents=data,
         embedding=instructor_embeddings
