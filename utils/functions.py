@@ -15,7 +15,7 @@ import pandas as pd
 load_dotenv()
 
 llm = GoogleGenerativeAI(model="models/text-bison-001",
-                         google_api_key=st.secrets['GOOGLE_API_KEY'],
+                         google_api_key=os.environ['GOOGLE_API_KEY'],
                          temperature=1)
 # the temperature variable decides how creative the model can be, 0 is not and 1 is very
 
@@ -30,7 +30,7 @@ def create_vector_db(file_path):
     create it every time you run the app.
 
     Args:
-    filename: Name of the csv file to be vectorised.
+    filepath: Name of the csv file to be vectorised.
     '''
     loader = CSVLoader(file_path=file_path,
                        source_column='question',
