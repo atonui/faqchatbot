@@ -43,8 +43,8 @@ def create_vector_db(file_path):
             embedding=instructor_embeddings
             )
         st.success('DB created but not saved locally')
-    except Exception:
-        raise RuntimeError
+    except:
+        st.warning('DB creation failed')
     vectordb.save_local(vector_db_file_path)
 
 
