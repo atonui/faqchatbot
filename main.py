@@ -1,5 +1,4 @@
 import datetime
-import os
 import streamlit as st
 from streamlit_option_menu import option_menu
 from utils.functions import create_vector_db, \
@@ -24,6 +23,7 @@ with st.sidebar:
 ############################# Chat ######################################################
 if selected == 'Chat':
     st.title('💬 FAQ Chatbot')
+    # FILEPATH = 'https://raw.githubusercontent.com/atonui/pds/main/banking.csv'
     FILEPATH = 'banking.csv'
     create_vector_db(FILEPATH)
 
