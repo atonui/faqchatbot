@@ -1,15 +1,15 @@
 import os
+import sqlite3
 from dotenv import load_dotenv
 from langchain_community.embeddings import HuggingFaceInstructEmbeddings
-# from InstructorEmbedding import INSTRUCTOR
+from InstructorEmbedding import INSTRUCTOR
 from langchain_community.vectorstores import FAISS
 from langchain.document_loaders.csv_loader import CSVLoader
-# from langchain.llms.google_palm import GooglePalm
+from langchain.llms.google_palm import GooglePalm
 from langchain_google_genai import GoogleGenerativeAI
 from langchain.prompts import PromptTemplate
 from langchain.chains import RetrievalQA
 import streamlit as st
-import sqlite3
 import pandas as pd
 
 load_dotenv()
@@ -41,7 +41,8 @@ def create_vector_db(file_path):
         documents=data,
         embedding=instructor_embeddings
         )
-    vectordb.save_local(vector_db_file_path)
+    # vectordb.save_local(vector_db_file_path)
+    return vectordb
 
 def get_qa_chain():
     # load the vector database from file
