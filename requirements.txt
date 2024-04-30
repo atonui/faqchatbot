@@ -91,7 +91,7 @@ SQLAlchemy==2.0.29
 sqlglot==23.8.0
 stack-data==0.6.3
 statsmodels==0.14.1
-streamlit==1.33.0
+streamlit
 streamlit-option-menu==0.3.12
 tenacity==8.2.3
 threadpoolctl==3.4.0

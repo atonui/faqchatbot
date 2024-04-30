@@ -2,10 +2,8 @@ import os
 import sqlite3
 from dotenv import load_dotenv
 from langchain_community.embeddings import HuggingFaceInstructEmbeddings
-from InstructorEmbedding import INSTRUCTOR
 from langchain_community.vectorstores import FAISS
 from langchain.document_loaders.csv_loader import CSVLoader
-from langchain.llms.google_palm import GooglePalm
 from langchain_google_genai import GoogleGenerativeAI
 from langchain.prompts import PromptTemplate
 from langchain.chains import RetrievalQA
@@ -38,7 +36,7 @@ def create_vector_db(file_path):
     data = loader.load()
     st.success('Loader okay')
     try:
-        vectordb = FAISS.from_documents(
+        vectordb = FAISS.afrom_documents(
             documents=data,
             embedding=instructor_embeddings
             )
