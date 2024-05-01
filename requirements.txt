@@ -4,7 +4,7 @@ langchain_community
 huggingface_hub
 huggingface-hub
 InstructorEmbedding
-sentence-transformers
+sentence-transformers==2.2.2
 python-dotenv==1.0.0
 tiktoken==0.4.0
 faiss-cpu
