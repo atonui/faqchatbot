@@ -25,7 +25,7 @@ if selected == 'Chat':
     st.title('💬 FAQ Chatbot')
     # FILEPATH = 'https://raw.githubusercontent.com/atonui/pds/main/banking.csv'
     FILEPATH = 'banking.csv'
-    create_vector_db(FILEPATH)
+    vector_db = create_vector_db(FILEPATH)
 
     st.caption(':money_with_wings: Your friendly banking assistant.')
     # Initialise session state variables
@@ -40,7 +40,7 @@ if selected == 'Chat':
         st.session_state.messages.append({'role': 'user', 'content': prompt})
         st.chat_message('user').write(prompt)
         # st.write(st.session_state.messages)
-        chain = get_qa_chain()
+        chain = get_qa_chain(vector_db)
         response = chain(prompt)
         st.chat_message('ai').write(response['result'])
 
