@@ -32,25 +32,29 @@ def create_vector_db(file_path):
     Args:
     filepath: Name of the csv file to be vectorised.
     '''
-    loader = CSVLoader(file_path=file_path,
-                       source_column='question',
-                       encoding='UTF-8')
-    data = loader.load()
-    st.success('Loader okay')
-    try:
-        vectordb = FAISS.from_documents(
-            documents=data,
-            embedding=instructor_embeddings
-            )
-        st.success('DB created but not saved locally')
-        # vectordb.save_local(vector_db_file_path)
-        st.success('DB saved!')
-        return vectordb
-    except:
-        st.warning('DB creation failed')
+    # Check if db exits first then create if not
+    if not os.path.exists('faiss_db'):
+        loader = CSVLoader(file_path=file_path,
+                        source_column='question',
+                        encoding='UTF-8')
+        data = loader.load()
+        st.success('Loader okay')
+        try:
+            vectordb = FAISS.from_documents(
+                documents=data,
+                embedding=instructor_embeddings
+                )
+            st.success('DB created but not saved locally')
+            vectordb.save_local(vector_db_file_path)
+            st.success('DB saved!')
+            # return vectordb
+        except:
+            st.warning('DB creation failed')
+    else:
+        st.info('Database already exists.')
 
 
-def get_qa_chain(vector_db):
+def get_qa_chain():
     '''
     Function to take the user query and relevant chunk of data
     from the vector database and prompt template, pass it to the LLM
@@ -59,9 +63,9 @@ def get_qa_chain(vector_db):
     Returns: Chain object
     '''
     # load the vector database from file
-    # vector_db = FAISS.load_local(vector_db_file_path,
-    #                              instructor_embeddings,
-    #                              allow_dangerous_deserialization=True)
+    vector_db = FAISS.load_local(vector_db_file_path,
+                                 instructor_embeddings,
+                                 allow_dangerous_deserialization=True)
     # vector_db = create_vector_db(FILEPATH)
 
     # create retriever for querying the vector db
