@@ -41,9 +41,9 @@ if selected == 'Chat':
 
     # Display chat messages from history on app rerun
     for msg in st.session_state.messages:
-        # st.chat_message(msg['role']).write(msg['content'])
-        with st.chat_message(msg['role']):
-            st.markdown(msg['content'])
+        st.chat_message(msg['role']).write(msg['content'])
+        # with st.chat_message(msg['role']):
+        #     st.markdown(msg['content'])
 
     # React to uset input
     if prompt := st.chat_input('How can I help you?'):
@@ -57,7 +57,7 @@ if selected == 'Chat':
         # Show user LLm response
         st.chat_message('ai').write(response['result'])
         # Store the user and LLM inputs in a list to keep session history
-        st.session_state.messages.append({'role': 'user', 'content': prompt})
+        # st.session_state.messages.append({'role': 'user', 'content': prompt})
         st.session_state.messages.append({'role': 'ai', 'content': response['result']})
 
         # capture the promt, response and timestamp here in a sqlite database
