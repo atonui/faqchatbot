@@ -1,4 +1,5 @@
 import datetime
+import pandas as pd
 import streamlit as st
 from streamlit_option_menu import option_menu
 from utils.functions import create_vector_db, \
@@ -7,9 +8,12 @@ from utils.functions import create_vector_db, \
 st.set_page_config(page_title='FAQ Chatbot',
                    page_icon=':lips:', layout='centered')
 
+# FILEPATH = 'https://raw.githubusercontent.com/atonui/pds/main/banking.csv'
+FILEPATH = 'banking.csv'
+
 with st.sidebar:
-    selected = option_menu(None, ['Chat', 'History', 'About'],
-                           icons=['chat-dots', 'clock-history'],
+    selected = option_menu(None, ['Chat', 'History', 'About', 'Data'],
+                           icons=['chat-dots', 'clock-history', 'info-circle', 'database'],
                            menu_icon='cast', default_index=0,
                            orientation='vertical',
                            styles={'icon': {'color': 'orange', 'font-size': '16px'},
@@ -23,26 +27,36 @@ with st.sidebar:
 ############################# Chat ######################################################
 if selected == 'Chat':
     st.title('💬 FAQ Chatbot')
-    # FILEPATH = 'https://raw.githubusercontent.com/atonui/pds/main/banking.csv'
-    FILEPATH = 'banking.csv'
     create_vector_db(FILEPATH)
 
     st.caption(':money_with_wings: Your friendly banking assistant.')
+    
     # Initialise session state variables
     if 'messages' not in st.session_state:
-        st.session_state['messages'] = [{'role': 'assistant',
-                                         'content': 'How can I help you today?'}]
+        # st.session_state['messages'] = [{'role': 'assistant',
+        #                                  'content': 'How can I help you today?'}]
+        st.session_state.messages = []
 
+    # Display chat messages from history on app rerun
     for msg in st.session_state.messages:
-        st.chat_message(msg['role']).write(msg['content'])
+        # st.chat_message(msg['role']).write(msg['content'])
+        with st.chat_message(msg['role']):
+            st.markdown(msg['content'])
 
-    if prompt := st.chat_input():
+    # React to uset input
+    if prompt := st.chat_input('How can I help you?'):
         st.session_state.messages.append({'role': 'user', 'content': prompt})
+        # Display user message
         st.chat_message('user').write(prompt)
         # st.write(st.session_state.messages)
+        # Query LLM
         chain = get_qa_chain()
         response = chain(prompt)
+        # Show user LLm response
         st.chat_message('ai').write(response['result'])
+        # Store the user and LLM inputs in a list to keep session history
+        st.session_state.messages.append({'role': 'user', 'content': prompt})
+        st.session_state.messages.append({'role': 'ai', 'content': response['result']})
 
         # capture the promt, response and timestamp here in a sqlite database
         create_db_table()
@@ -98,6 +112,14 @@ Some potential features for future releases:
     )
 
     st.image('project_design.png')
+
+############################# Data ######################################################
+if selected == 'Data':
+    st.header('Proprietary Data')
+    df = pd.read_csv(FILEPATH)
+    st.dataframe(df)
+
+
 
 # Add credit
 st.sidebar.markdown('''

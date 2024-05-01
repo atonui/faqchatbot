@@ -23,7 +23,7 @@ llm = GoogleGenerativeAI(model="models/text-bison-001",
 instructor_embeddings = HuggingFaceInstructEmbeddings()
 vector_db_file_path = 'faiss_db'
 
-@st.cache_resource
+# @st.cache_resource
 def create_vector_db(file_path):
     '''
     Create the vector db and save it in a local file rather than
@@ -46,12 +46,12 @@ def create_vector_db(file_path):
                 )
             st.success('DB created but not saved locally')
             vectordb.save_local(vector_db_file_path)
-            st.success('DB saved!')
+            st.toast('DB saved!', icon='🗂️')
             # return vectordb
         except:
             st.warning('DB creation failed')
     else:
-        st.info('Database already exists.')
+        st.toast('Vector database already exists.', icon='💾')
 
 
 def get_qa_chain():
