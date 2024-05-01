@@ -38,14 +38,14 @@ def create_vector_db(file_path):
     data = loader.load()
     st.success('Loader okay')
     try:
-        vectordb = FAISS.afrom_documents(
+        vectordb = FAISS.from_documents(
             documents=data,
             embedding=instructor_embeddings
             )
         st.success('DB created but not saved locally')
-        # vectordb.save_local(vector_db_file_path)
-        # st.success('DB saved!')
-        return vectordb
+        vectordb.save_local(vector_db_file_path)
+        st.success('DB saved!')
+        # return vectordb
     except:
         st.warning('DB creation failed')
 
@@ -59,10 +59,10 @@ def get_qa_chain():
     Returns: Chain object
     '''
     # load the vector database from file
-    # vector_db = FAISS.load_local(vector_db_file_path,
-                                #  instructor_embeddings,
-                                #  allow_dangerous_deserialization=True)
-    vector_db = create_vector_db(FILEPATH)
+    vector_db = FAISS.load_local(vector_db_file_path,
+                                 instructor_embeddings,
+                                 allow_dangerous_deserialization=True)
+    # vector_db = create_vector_db(FILEPATH)
 
     # create retriever for querying the vector db
     retriever = vector_db.as_retriever(score_threshold=0.7)
