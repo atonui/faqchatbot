@@ -1,4 +1,5 @@
 import datetime
+import uuid
 import pandas as pd
 import streamlit as st
 from streamlit_option_menu import option_menu
@@ -36,6 +37,7 @@ if selected == 'Chat':
         # st.session_state['messages'] = [{'role': 'assistant',
         #                                  'content': 'How can I help you today?'}]
         st.session_state.messages = []
+        st.session_state['session_id'] = uuid.uuid4().hex
 
     # Display chat messages from history on app rerun
     for msg in st.session_state.messages:
@@ -61,7 +63,7 @@ if selected == 'Chat':
         # capture the promt, response and timestamp here in a sqlite database
         create_db_table()
         currentTime = datetime.datetime.now()
-        insert_into_table(currentTime, prompt, response['result'])
+        insert_into_table(currentTime, st.session_state.session_id, prompt, response['result'])
 
 ############################# History ######################################################
 if selected == 'History':

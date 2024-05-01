@@ -122,6 +122,7 @@ def create_db_table():
     create_table_query = '''CREATE TABLE IF NOT EXISTS chat_table (
     ID INTEGER PRIMARY KEY,
     time_stamp TIMESTAMP,
+    session_id VARCHAR,
     user_query VARCHAR,
     llm_response VARCHAR
     );'''
@@ -130,14 +131,14 @@ def create_db_table():
     close_db_connection(cursor)
 
 
-def insert_into_table(current_time, prompt, response):
+def insert_into_table(current_time, session_id, prompt, response):
     '''
     Insert values into the chat_table table in the database
     '''
     db_connection = open_db_connection()
     cursor = db_connection.cursor()
-    cursor.execute('''INSERT INTO chat_table (time_stamp, user_query, llm_response) VALUES(?,?,?)''',
-                   [current_time, prompt, response])
+    cursor.execute('''INSERT INTO chat_table (time_stamp,session_id, user_query, llm_response) VALUES(?,?,?,?)''',
+                   [current_time, session_id, prompt, response])
     db_connection.commit()
     close_db_connection(cursor)
 
