@@ -112,6 +112,14 @@ Some potential features for future releases:
 - Customise the prompt template and model hyperparameters
 - Ability to create multiple knowledgebases.
 
+## 📜 Current Prompt Template
+Given the following context and a question, generate an answer based on this context only.
+        In the answer try to provide as much text as possible from "response" section on the source document without making up anything.
+        If the answer is not found in the context, kindly state "I do not know. Please contact customer care or visit one of our branches." Do not try to make up an answer.
+        
+        CONTEXT: {context}
+    QUESTION: {question}
+
 ## :gear: Project Design
 '''
     )
