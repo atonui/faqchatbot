@@ -1,4 +1,5 @@
 import datetime
+import os
 import uuid
 import pandas as pd
 import streamlit as st
@@ -28,7 +29,9 @@ with st.sidebar:
 ############################# Chat ######################################################
 if selected == 'Chat':
     st.title('💬 FAQ Chatbot')
-    create_vector_db(FILEPATH)
+    # Create vector database if it doe not exist
+    if not os.path.exists('faiss_db'):
+        create_vector_db(FILEPATH)
 
     st.caption(':money_with_wings: Your friendly banking assistant.')
     

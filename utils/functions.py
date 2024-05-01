@@ -23,7 +23,7 @@ llm = GoogleGenerativeAI(model="models/text-bison-001",
 instructor_embeddings = HuggingFaceInstructEmbeddings()
 vector_db_file_path = 'faiss_db'
 
-# @st.cache_resource
+@st.cache_resource
 def create_vector_db(file_path):
     '''
     Create the vector db and save it in a local file rather than
@@ -33,25 +33,25 @@ def create_vector_db(file_path):
     filepath: Name of the csv file to be vectorised.
     '''
     # Check if db exits first then create if not
-    if not os.path.exists('faiss_db'):
-        loader = CSVLoader(file_path=file_path,
-                        source_column='question',
+    # if not os.path.exists('faiss_db'):
+    loader = CSVLoader(file_path=file_path,
+                       source_column='question',
                         encoding='UTF-8')
-        data = loader.load()
-        st.success('Loader okay')
-        try:
-            vectordb = FAISS.from_documents(
-                documents=data,
-                embedding=instructor_embeddings
-                )
-            st.success('DB created but not saved locally')
-            vectordb.save_local(vector_db_file_path)
-            st.toast('DB saved!', icon='🗂️')
-            # return vectordb
-        except:
-            st.warning('DB creation failed')
-    else:
-        st.toast('Vector database already exists.', icon='💾')
+    data = loader.load()
+    st.success('Loader okay')
+    try:
+        vectordb = FAISS.from_documents(
+            documents=data,
+            embedding=instructor_embeddings
+            )
+        st.success('DB created but not saved locally')
+        vectordb.save_local(vector_db_file_path)
+        st.toast('DB saved!', icon='🗂️')
+        # return vectordb
+    except:
+        st.warning('DB creation failed')
+    # else:
+    #     st.toast('Vector database already exists.', icon='💾')
 
 
 def get_qa_chain():
