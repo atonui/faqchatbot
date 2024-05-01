@@ -71,12 +71,6 @@ if selected == 'Chat':
 ############################# History ######################################################
 if selected == 'History':
     st.title(':orange[Chat History]')
-    def file_selector(folder_path='.'):
-        filenames = os.listdir(folder_path)
-        selected_filename = st.selectbox('Select a file', filenames, key=filenames)
-        return os.path.join(folder_path, selected_filename)
-
-    filename = file_selector()
     st.write('You selected `%s`' % filename)
     # create another tab where one can view these results
     df = read_db()
