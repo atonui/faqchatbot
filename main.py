@@ -128,9 +128,17 @@ Given the following context and a question, generate an answer based on this con
 
 ############################# Data ######################################################
 if selected == 'Data':
-    st.header('Proprietary Data')
+    st.header('## Proprietary Data')
     df = pd.read_csv(FILEPATH)
     st.dataframe(df)
+    st.markdown('## EDA')
+    column1, column2 = st.columns(2)
+    with column1:
+        with st.container(border=True):
+            st.image('response_wordcloud.png')
+    with column2:
+        with st.container(border=True):
+            st.image('question_wordcloud.png')
 
 
 
