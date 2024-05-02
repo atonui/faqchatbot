@@ -4,6 +4,7 @@ import uuid
 import pandas as pd
 import streamlit as st
 from streamlit_option_menu import option_menu
+import streamlit.components.v1 as components
 from utils.functions import create_vector_db, \
     get_qa_chain, create_db_table, insert_into_table, read_db
 
@@ -12,6 +13,7 @@ st.set_page_config(page_title='FAQ Chatbot',
 
 # FILEPATH = 'https://raw.githubusercontent.com/atonui/pds/main/banking.csv'
 FILEPATH = 'banking.csv'
+note_book_path = 'bank_faqs.ipynb'
 
 with st.sidebar:
     selected = option_menu(None, ['Chat', 'History', 'About', 'Data'],
@@ -139,8 +141,10 @@ if selected == 'Data':
     with column2:
         with st.container(border=True):
             st.image('question_wordcloud.png')
-
-
+    with st.expander("Learn how the model was trained?", expanded=False):
+        with open(note_book_path, 'r',encoding='utf-8') as f:
+            html_data = f.read()
+        components.html(html_data, height=1000, width=800, scrolling=True)
 
 # Add credit
 st.sidebar.markdown('''
