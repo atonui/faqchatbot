@@ -71,7 +71,6 @@ if selected == 'Chat':
 ############################# History ######################################################
 if selected == 'History':
     st.title(':orange[Chat History]')
-    st.write('You selected `%s`' % filename)
     # create another tab where one can view these results
     df = read_db()
     st.dataframe(df, hide_index=True)
