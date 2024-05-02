@@ -27,13 +27,13 @@ with st.sidebar:
                                    })
 
     "[View the source code](https://github.com/atonui/faqchatbot/tree/main)"
-    
-    ph = st.empty()
-    N = 10*60
-    for secs in range(N, 0, -1):
-        mm, ss = secs//60, secs % 60
-        ph.metric("Countdown", f"{mm:02d}:{ss:02d}")
-        time.sleep(1)
+    if st.button('Start Timer'):
+        ph = st.empty()
+        N = 10*60
+        for secs in range(N, 0, -1):
+            mm, ss = secs//60, secs % 60
+            ph.metric("Countdown", f"{mm:02d}:{ss:02d}")
+            time.sleep(1)
 
 
 ############################# Chat ######################################################
