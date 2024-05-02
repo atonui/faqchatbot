@@ -3,6 +3,7 @@ import os
 import uuid
 import pandas as pd
 import streamlit as st
+import time
 from streamlit_option_menu import option_menu
 import streamlit.components.v1 as components
 from utils.functions import create_vector_db, \
@@ -13,7 +14,7 @@ st.set_page_config(page_title='FAQ Chatbot',
 
 # FILEPATH = 'https://raw.githubusercontent.com/atonui/pds/main/banking.csv'
 FILEPATH = 'banking.csv'
-note_book_path = 'bank_faqs.ipynb'
+note_book_path = 'https://raw.githubusercontent.com/atonui/faqchatbot/main/bank_faqs.ipynb'
 
 with st.sidebar:
     selected = option_menu(None, ['Chat', 'History', 'About', 'Data'],
@@ -26,6 +27,13 @@ with st.sidebar:
                                    })
 
     "[View the source code](https://github.com/atonui/faqchatbot/tree/main)"
+    
+    ph = st.empty()
+    N = 10*60
+    for secs in range(N, 0, -1):
+        mm, ss = secs//60, secs % 60
+        ph.metric("Countdown", f"{mm:02d}:{ss:02d}")
+        time.sleep(1)
 
 
 ############################# Chat ######################################################
