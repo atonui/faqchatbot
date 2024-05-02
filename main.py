@@ -14,7 +14,7 @@ st.set_page_config(page_title='FAQ Chatbot',
 
 # FILEPATH = 'https://raw.githubusercontent.com/atonui/pds/main/banking.csv'
 FILEPATH = 'banking.csv'
-note_book_path = 'https://raw.githubusercontent.com/atonui/faqchatbot/main/bank_faqs.ipynb'
+note_book_path = 'bank_faqs.ipynb'
 
 with st.sidebar:
     selected = option_menu(None, ['Chat', 'History', 'About', 'Data'],
@@ -29,7 +29,7 @@ with st.sidebar:
     "[View the source code](https://github.com/atonui/faqchatbot/tree/main)"
     if st.button('Start Timer'):
         ph = st.empty()
-        N = 10*60
+        N = 600
         for secs in range(N, 0, -1):
             mm, ss = secs//60, secs % 60
             ph.metric("Countdown", f"{mm:02d}:{ss:02d}")
@@ -59,7 +59,7 @@ if selected == 'Chat':
         #     st.markdown(msg['content'])
 
     # React to uset input
-    if prompt := st.chat_input('How can I help you?'):
+    if prompt := st.chat_input('How can I help you today?'):
         st.session_state.messages.append({'role': 'user', 'content': prompt})
         # Display user message
         st.chat_message('user').write(prompt)
