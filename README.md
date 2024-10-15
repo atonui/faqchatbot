@@ -216,9 +216,9 @@ Use this space to list resources you find helpful and would like to give credit 
 [product-screenshot]: images/screenshot.png
 [Streamlit.js]: https://img.shields.io/badge/Streamlit-8A2BE2
 [Streamlit-url]: https://streamlit.io/
-[Palm.js]: https://img.shields.io/badge/Google%PaLM-61DAFB
+[Palm.js]: https://img.shields.io/badge/Google%20PaLM-61DAFB
 [React-url]: https://ai.google/discover/palm2/
-[Instructor.js]: https://img.shields.io/badge/Instructor%Embeddings-4FC08D
+[Instructor.js]: https://img.shields.io/badge/Instructor%20Embeddings-4FC08D
 [Instructor-url]: https://instructor-embedding.github.io/
 [FAISS.io]: https://img.shields.io/badge/FAISS-61DAFB
 [FAISS-url]: https://engineering.fb.com/2017/03/29/data-infrastructure/faiss-a-library-for-efficient-similarity-search/
